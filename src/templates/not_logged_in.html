@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% import "components/alerts.jinja" as alerts %}
+
+{% block head %}
+<title>RaspCloud - Your data, with you</title>
+<style>
+    body {
+        background-color: #000;
+        color: #fff
+    }
+
+    .logincard {
+        width: 30%; margin: 1rem auto;
+    }
+
+    @media (max-width: 750px) {
+        .logincard {width: 70%;}
+    }
+</style>
+{% endblock head %}
+
+{% block body %}
+<h1 class="w3-center w3-jumbo" style="margin-top: 2rem;">RaspCloud</h1>
+<p class="w3-center w3-xlarge w3-text-light-gray">Cloud that stays on your device</p>
+<p class="w3-center w3-large"><a href="https://github.com/arnu515/raspcloud">Get your own raspcloud today!</a></p>
+
+<div class="card logincard">
+    <form action="/login" method="POST" class="w3-container">
+        {% with messages = get_flashed_messages(True, "error") %}
+        {% if messages %}
+        {% for message in messages %}
+            {{ alerts.error(message[1]) }}
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <h2 class="w3-center">Please log in</h2>
+        <p>
+            <input type="email" name="email" placeholder="Enter email" class="w3-input w3-border" />
+            <input type="password" name="password" class="w3-input w3-border" style="margin-top: -1px" placeholder="Enter your password" />
+            <a href="/account/recovery" class="w3-right">Forgot your email/password?</a>
+            <br>
+        </p>
+        <p>
+            <button type="submit" class="w3-button w3-black w3-hover-dark-gray" style="width: 100%; display: block; text-align: center">Log in</button>
+        </p>
+    </form>
+</div>
+{% endblock body %}

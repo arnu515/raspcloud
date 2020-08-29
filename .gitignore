@@ -1,0 +1,11 @@
+files/
+migrations/
+src/db.db
+src/config.json
+.env
+venv/
+__pycache__
+.DS_Store
+thumbs.db
+.idea
+.vscode

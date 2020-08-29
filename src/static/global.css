@@ -1,0 +1,67 @@
+a {
+    color: #eee;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ededed;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+a:focus {
+    color: #cdcdcd;
+}
+
+.card {
+    background: white;
+    color: black;
+    border: 1px solid #ddd;
+    border-radius: 0.3rem;
+}
+
+.card a {
+    color: #333;
+}
+
+.card a:hover {
+    color: #555;
+}
+
+.card a:focus {
+    color: #666;
+}
+
+.sidebar {
+    width: 20%;
+    overflow: auto;
+}
+
+.main {
+    margin-left: 21%;
+}
+
+.breadcrumb {
+    margin-left: 20%;
+}
+
+.drop {
+    animation: drop 500ms ease;
+}
+
+@keyframes drop {
+    0% {opacity: 0}
+    100% {opacity: 1}
+}
+
+@media (max-width: 800px) {
+    .sidebar {
+        display: none;
+    }
+    .main {
+        margin-left: 0;
+    }
+    .breadcrumb {
+        margin-left: 0%;
+    }
+}

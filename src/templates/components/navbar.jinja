@@ -1,0 +1,55 @@
+{% macro navbar(user) %}
+    <div class="w3-bar w3-blue w3-container">
+        <a href="/" class="w3-bar-item w3-button w3-hover-none w3-hover-text-white w3-large">RaspCloud</a>
+        <div class="w3-right" style="display: flex; align-items: center">
+            <div class="w3-dropdown-click">
+                <div class="w3-dropdown-click">
+                    <button class="w3-button w3-blue w3-hover-none w3-hover-blue" id="uploadToggle" onclick="dropdown('uploadDrop', 'uploadToggle', true)"><i class="fas fa-plus" style="transition: all 500ms ease;"></i> Add</button>
+                    <div id="uploadDrop" class="w3-dropdown-content w3-bar-block w3-border drop">
+                        <button class="w3-bar-item w3-button w3-hover-light-gray" onclick='document.getElementById("newFolder").classList.toggle("w3-show")'>New folder</button>
+                        <button class="w3-bar-item w3-button w3-hover-light-gray" onclick='document.getElementById("uploadFile").classList.toggle("w3-show")'>Upload file(s)</button>
+                    </div>
+                </div>
+            </div>
+            {% if user.role == "main" or user.role == "admin" %}
+                <a href="/acp" class="w3-bar-item w3-button w3-hover-none w3-hover-text-white"><i class="fas fa-cogs"></i> ACP</a>
+            {% endif %}
+            <div class="w3-dropdown-click">
+                <div class="w3-dropdown-click">
+                    <button class="w3-button w3-blue w3-hover-none w3-hover-blue" id="userToggle" onclick="dropdown('userDrop', 'userToggle')">
+                        <img src="/avatar?email={{ user.get_email() }}" alt="Avatar" class="w3-border w3-border-white w3-circle">
+                    </button>
+                    <div id="userDrop" class="w3-dropdown-content w3-bar-block w3-border drop" style="right: 1rem">
+                        <span class="w3-bar-item">{{ user.get_email() }}</span>
+                        <a href="/settings" class="w3-bar-item w3-button w3-hover-light-gray">Settings</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro sidebar(current_folder_name="", folders=[]) %}
+    <div class="w3-sidebar w3-bar-block w3-white w3-border-right w3-border-gray sidebar">
+        <h3 class="w3-bar-item">{{ current_folder_name }}</h3>
+        {% for folder in folders %}
+        <a href="{{ folder.abs_path }}" class="w3-bar-item w3-text-dark-gray w3-hover-text-gray">{{ folder.name }}/</a>
+        {% else %}
+        <span class="w3-bar-item w3-text-dark-gray">No folders</span>
+        {% endfor %}
+    </div>
+{% endmacro %}
+
+{% macro breadcrumbs() %}
+    <div class="w3-bar w3-white w3-border-bottom w3-border-gray breadcrumb">
+        <a href="/" class="w3-bar-item w3-text-dark-gray w3-hover-text-gray"><i class="fas fa-home"></i> Home</a>
+        <span class="w3-bar-item">/</span>
+        {% for i in range(0, request.path.split("/")[1::]|length) %}
+        <a href="/{{ '/'.join(request.path.split('/')[1::][:i+1]) }}" class="w3-bar-item w3-text-dark-gray w3-hover-text-gray">{{ request.path.split('/')[1::][i] }}</a>
+        {% if not loop.last %}
+        <span class="w3-bar-item">/</span>
+        {% endif %}
+        {% else %}
+        {% endfor %}
+    </div>
+{% endmacro %}

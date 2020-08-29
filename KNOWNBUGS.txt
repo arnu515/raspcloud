@@ -1,0 +1,3 @@
+- File fetch different from folder fetch (src/util/dh.py:79)
+- Clicking on the ellipsis next to the file/folder name doesn't do anything (frontend [src/templates/index.html])
+- There is no Admin Control Panel or ACP (frontend)

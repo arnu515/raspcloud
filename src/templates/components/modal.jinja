@@ -1,0 +1,42 @@
+{% macro new_folder_modal() %}
+    <div class="w3-modal w3-animate-opacity" id="newFolder">
+        <div class="w3-modal-content w3-animate-top">
+            <header class="w3-container">
+                <h3>Create new folder <span class="w3-right" style="cursor: pointer" onclick="document.getElementById('newFolder').classList.toggle('w3-show')"><i class="fas fa-times"></i></span></h3>
+            </header>
+            <form action="/new?next={{ request.path }}" method="post" class="w3-container">
+                <p>
+                    <label for="folder">Folder name</label>
+                    <input type="text" placeholder="A-Z, a-z, 0-9, _, -, space and <= 256 chars only" id="folder" name="folder" class="w3-input w3-border">
+                    <input type="hidden" name="type" value="new_folder">
+                    <input type="hidden" name="path" id="32Wem2" value="">
+                    <script>document.getElementById("32Wem2").value = window.location.pathname</script>
+                </p>
+                <p>
+                    <button class="w3-button w3-blue w3-hover-aqua" type="submit">Create</button>
+                    <button class="w3-button w3-light-gray w3-gray" type="button" onclick="document.getElementById('newFolder').classList.toggle('w3-show')">Cancel</button>
+                </p>
+            </form>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro upload_file_modal() %}
+<div class="w3-modal w3-animate-opacity" id="uploadFile">
+    <div class="w3-modal-content w3-animate-top">
+        <header class="w3-container">
+            <h3>Upload files(s) <span class="w3-right" style="cursor: pointer" onclick="document.getElementById('uploadFile').classList.toggle('w3-show')"><i class="fas fa-times"></i></span></h3>
+        </header>
+        <form class="w3-container">
+            <h4>Selected files:</h4>
+            <ul class="w3-ul" id="fileList"></ul>
+            <p>
+                <button class="w3-button w3-light-gray w3-hover-gray" type="button" onclick="uploadFile()" id="addFile">Add file</button>
+                <button class="w3-button w3-light-gray w3-hover-gray" type="button" onclick="document.getElementById('uploadFile').classList.toggle('w3-show')">Cancel</button>
+                <button class="w3-button w3-blue w3-hover-aqua" type="submit" name="path" value="{{ request.path }}">Upload</button>
+                <span class="w3-margin-left" id="spinner" style="display: none"><i class="fas fa-spinner fa-pulse"></i> Uploading files...</span>
+            </p>
+        </form>
+    </div>
+</div>
+{% endmacro %}
