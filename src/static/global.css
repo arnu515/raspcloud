@@ -49,6 +49,37 @@ a:focus {
     animation: drop 500ms ease;
 }
 
+.rc-menu {
+    position: absolute;
+    display: none;
+    z-index: 1;
+    background-color: white;
+    border: 1px gray solid;
+}
+
+.rc-menu.active {
+    display: block;
+}
+
+.rc-menu ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.rc-menu li {
+    padding: 0.5rem;
+}
+
+.rc-menu li:not(:last-child) {
+    border-bottom: 1px gray solid;
+}
+
+.rc-menu li:hover {
+    cursor: pointer;
+    background-color: #eee;
+}
+
 @keyframes drop {
     0% {opacity: 0}
     100% {opacity: 1}

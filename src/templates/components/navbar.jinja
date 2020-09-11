@@ -4,7 +4,7 @@
         <div class="w3-right" style="display: flex; align-items: center">
             <div class="w3-dropdown-click">
                 <div class="w3-dropdown-click">
-                    <button class="w3-button w3-blue w3-hover-none w3-hover-blue" id="uploadToggle" onclick="dropdown('uploadDrop', 'uploadToggle', true)"><i class="fas fa-plus" style="transition: all 500ms ease;"></i> Add</button>
+                    <button class="w3-button w3-blue w3-hover-none w3-hover-blue" id="uploadToggle" onclick="dropdown('uploadDrop', 'uploadToggle', true)"><i class="fas fa-plus" style="transition: all 500ms ease;"></i> <span class="w3-hide-small">Add</span></button>
                     <div id="uploadDrop" class="w3-dropdown-content w3-bar-block w3-border drop">
                         <button class="w3-bar-item w3-button w3-hover-light-gray" onclick='document.getElementById("newFolder").classList.toggle("w3-show")'>New folder</button>
                         <button class="w3-bar-item w3-button w3-hover-light-gray" onclick='document.getElementById("uploadFile").classList.toggle("w3-show")'>Upload file(s)</button>
@@ -12,7 +12,7 @@
                 </div>
             </div>
             {% if user.role == "main" or user.role == "admin" %}
-                <a href="/acp" class="w3-bar-item w3-button w3-hover-none w3-hover-text-white"><i class="fas fa-cogs"></i> ACP</a>
+            <a href="/acp" class="w3-bar-item w3-button w3-hover-none w3-hover-text-white"><i class="fas fa-cogs"></i> <span class="w3-hide-small">ACP</span></a>
             {% endif %}
             <div class="w3-dropdown-click">
                 <div class="w3-dropdown-click">
@@ -22,6 +22,7 @@
                     <div id="userDrop" class="w3-dropdown-content w3-bar-block w3-border drop" style="right: 1rem">
                         <span class="w3-bar-item">{{ user.get_email() }}</span>
                         <a href="/settings" class="w3-bar-item w3-button w3-hover-light-gray">Settings</a>
+                        <a href="/logout" class="w3-bar-item w3-button w3-hover-light-gray">Logout</a>
                     </div>
                 </div>
             </div>
@@ -44,7 +45,7 @@
     <div class="w3-bar w3-white w3-border-bottom w3-border-gray breadcrumb">
         <a href="/" class="w3-bar-item w3-text-dark-gray w3-hover-text-gray"><i class="fas fa-home"></i> Home</a>
         <span class="w3-bar-item">/</span>
-        {% for i in range(0, request.path.split("/")[1::]|length) %}
+        {% for i in range(1, request.path.split("/")[1::]|length) %}
         <a href="/{{ '/'.join(request.path.split('/')[1::][:i+1]) }}" class="w3-bar-item w3-text-dark-gray w3-hover-text-gray">{{ request.path.split('/')[1::][i] }}</a>
         {% if not loop.last %}
         <span class="w3-bar-item">/</span>

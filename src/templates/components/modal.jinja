@@ -32,9 +32,11 @@
             <ul class="w3-ul" id="fileList"></ul>
             <p>
                 <button class="w3-button w3-light-gray w3-hover-gray" type="button" onclick="uploadFile()" id="addFile">Add file</button>
-                <button class="w3-button w3-light-gray w3-hover-gray" type="button" onclick="document.getElementById('uploadFile').classList.toggle('w3-show')">Cancel</button>
-                <button class="w3-button w3-blue w3-hover-aqua" type="submit" name="path" value="{{ request.path }}">Upload</button>
-                <span class="w3-margin-left" id="spinner" style="display: none"><i class="fas fa-spinner fa-pulse"></i> Uploading files...</span>
+                <button class="w3-button w3-light-gray w3-hover-gray" type="button" onclick="cancelFileUpload()">Cancel</button>
+                <button class="w3-button w3-blue w3-hover-aqua" type="submit" name="path" value="{{ request.path }}" id="uploadFileBtn">Upload</button>
+                <div class="w3-light-gray w3-section w3-hide" id="progress">
+                    <div class="w3-blue w3-text-white w3-container" id="progress-bar" style="width: 2%; transition: width 15ms ease;"></div>
+                </div>
             </p>
         </form>
     </div>

@@ -7,9 +7,13 @@ from ..models import *
 def bytes_to_human(b: int, format_: str = "%(value)1f %(unit)s") -> str:
     b = int(b)  # Just for safety measures
     unit = 1000  # or 1024 for IEC standard conversion
+    if b <= 0:
+        return format_ % dict(value=0, unit="B")
+    if b <= unit:
+        return format_ % dict(value=b, unit="B")
     pre = "kMGT"  # Capitalise k if IEC
     exp = int(math.log(b) / math.log(unit))
-    return format_ % dict(value=3219 / math.pow(unit, exp), unit=pre[exp - 1] + "B")  # change B to iB and if IEC
+    return format_ % dict(value=3219 / math.pow(unit, exp), unit=pre[exp - 1] + "B")  # change B to iB if IEC
 
 
 def create_file_dict(filename: str) -> dict:

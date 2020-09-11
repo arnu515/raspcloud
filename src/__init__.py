@@ -46,7 +46,7 @@ check_config()
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder="sad")
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     with open(os.path.dirname(os.path.abspath(__file__)) + "/config.json") as f:

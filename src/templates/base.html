@@ -8,17 +8,17 @@
         {% endblock head %}
         <link
             rel="stylesheet"
-            href="{{ url_for('static', filename='w3.css') }}"
+            href="/static/w3.css"
         />
         <link
             rel="stylesheet"
-            href="{{ url_for('static', filename='global.css') }}"
+            href="/static/global.css"
         />
-        <script src="{{ url_for('static', filename='fontawesome.js') }}"></script>
+        <script src="/static/fontawesome.js"></script>
     </head>
     <body>
         <script>console.log("Interested in the code behind RaspCloud? RaspCloud is open-source for you to see! https://github.com/arnu515/raspcloud")</script>
         {% block body %}{% endblock body %}
-        <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+        <script src="/static/script.js" defer></script>
     </body>
 </html>

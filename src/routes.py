@@ -2,7 +2,7 @@ import os
 import re
 from urllib.parse import urlparse, urljoin
 
-from flask import current_app as app, render_template, request, redirect, url_for, flash, jsonify, make_response, abort, \
+from flask import current_app as app, render_template, request, redirect, url_for, flash, jsonify, make_response, \
     send_from_directory
 from werkzeug.utils import secure_filename as sf
 from flask_login import current_user, login_user, login_required, logout_user
@@ -28,6 +28,11 @@ def is_safe_url(target):
     return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
 
 
+@app.route('/static/<path:filename>')
+def serve_static_files(filename: str):
+    return send_from_directory("static", filename)
+
+
 if app.config["INSTALLED"]:
     @app.route('/')
     def index():
@@ -37,7 +42,7 @@ if app.config["INSTALLED"]:
             return render_template("index.html", items=dh.get_items_in_main_folder())
 
 
-    @app.route('/<path:folder_path>')
+    @app.route('/files/<path:folder_path>')
     def folder_route(folder_path: str):
         if not current_user.is_authenticated:
             return redirect(url_for("index"))
@@ -100,9 +105,10 @@ if app.config["INSTALLED"]:
                 if is_safe_url(request.args.get("next")):
                     return redirect(request.args.get("next"))
                 return redirect(url_for("index"))
-            folder_name = folder_name.strip().replace("%20", " ")
+            folder_name = folder_name.strip().replace("%20", "_")
             folder_name = sf(folder_name)
-            path = path.rstrip().replace("%20", " ")
+            path = path.rstrip().replace("%20", "_")
+            path = path.replace("files/", "", 1)
             if not path or not folder_name:
                 flash("Invalid folder name!", "error")
                 if is_safe_url(request.args.get("next")):
@@ -126,18 +132,13 @@ if app.config["INSTALLED"]:
                 return redirect(request.args.get("next"))
             return redirect(url_for("index"))
         elif type_ == "upload_file":
-            # If this doesn't work, then use this method:
-            # - Instead of having a files array, just add all of the file inputs
-            # to a div.w3 - hide and just make the form submit with action attribute
-            # No need of fetch, or FormData
-            # NOTE: You may need to add content - type = multipart / form - data
-            # as attribute to form element
             temp_files_list = []
             if request.files:
                 path = request.form.get("path")
                 if len(path) == 0:
                     return make_response(jsonify("Invalid"), 400)
-                path.replace("%20", " ")
+                path = path.replace("%20", "_")
+                path = path.replace("files/", "", 1)
                 cloud_dir_full_path = config.get_config("cloud_dir_full_path")
                 if path == "/":
                     path = ""
@@ -161,6 +162,7 @@ if app.config["INSTALLED"]:
 
 
     @app.route("/dl/<path:filepath>")
+    @login_required
     def download_file(filepath: str):
         return send_from_directory(config.get_config("cloud_dir_full_path"), filepath)
 
@@ -186,6 +188,7 @@ if app.config["INSTALLED"]:
             if filetype[0] == "font":
                 return "file-signature"
             return "file"
+
         return dict(get_file_icon=get_file_icon)
 
 else:

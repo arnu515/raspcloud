@@ -24,6 +24,19 @@ pip install -r requirements.txt
 ```
 _You can also use a virtual environment._
 
+We need to add some environment variables first. Create a file called `.env`. We need to add this in it:
+```
+FERNET_KEY=<a fernet key>
+FERNET_PWKEY=<another fernet key>
+```
+To get these keys, you can use the `python` `cryptography` module.
+```python
+from cryptography.fernet import Fernet
+print(Fernet.generate_key().decode())
+print(Fernet.generate_key().decode())
+```
+It will give you two keys as output. Copy and paste them in your .env
+
 Finally, start the server by running the `start.sh` file:
 ```
 sh start.sh
@@ -46,6 +59,8 @@ sudo ufw allow 80 # or sudo ufw allow http
 
 You can deploy RaspCloud with NGINX by following [this guide](https://www.linode.com/docs/platform/one-click/how-to-deploy-flask-with-one-click-apps/)  
 *Yes, it is for Linode servers, but the steps are the same*
+
+> You may have to use `sudo` before `sh start.sh` if port binding fails.
 
 ### Setup
 
@@ -73,3 +88,4 @@ Click on the folder icons/names to go into that folder. Click the file icons/nam
 - `flask` micro-framework with extensions used for website
 - See `requirements.txt` for the python packages used
 - Stackoverflow, for helping me with bugs and other problems
+- FontAwesome 5, for the amazing icons

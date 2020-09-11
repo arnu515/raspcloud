@@ -4,7 +4,7 @@
 {% import "components/alerts.jinja" as alerts %}
 
 {% block head %}
-<title>RaspCloud - Your data, with you</title>
+    <title>RaspCloud - Your data, with you</title>
 {% endblock head %}
 
 {% block body %}
@@ -24,13 +24,20 @@
         <h2>Folders</h2>
         <div class="w3-row-padding w3-section">
             {% for item in items[0] %}
-            <div class="w3-col m4 l3 w3-margin-top">
+            <div class="w3-col m6 l4 w3-margin-top" id="folder{{ loop.index }}">
                 <div class="card">
-                    <div class="w3-center w3-section" style="cursor: pointer;"><a class="w3-jumbo w3-text-blue" href="{{ item.abs_path }}"><i class="far fa-folder"></i></a></div>
+                    <div class="w3-center w3-section" style="cursor: pointer;"><a class="w3-jumbo w3-text-blue" href="/files{{ item.abs_path }}"><i class="far fa-folder"></i></a></div>
                     <footer class="w3-container w3-section">
-                        <a href="{{ item.abs_path }}" class="w3-text-blue w3-hover-text-aqua">{{ item.name }}/</a>
+                        <a href="/files{{ item.abs_path }}" class="w3-text-blue w3-hover-text-aqua">{{ item.name[:17] }}{% if item.name[:17] != item.name %}...{% endif %}/</a>
                         <div class="w3-right">
-                            <span class="w3-hover-text-dark-gray" style="cursor: pointer"><i class="fas fa-ellipsis-h"></i></span>
+                            <span class="w3-hover-text-dark-gray" onclick="document.querySelector('#folder{{ loop.index }} .rc-menu').classList.toggle('active')" style="cursor: pointer"><i class="fas fa-ellipsis-h"></i></span>
+                            <div class="rc-menu w3-animate-opacity">
+                                <ul>
+                                    <li onclick="window.location = '/files{{ item.abs_path }}'"><i class="far fa-eye"></i> Open</li>
+                                    <li><i class="fas fa-i-cursor"></i> Rename</li>
+                                    <li class="w3-text-red"><i class="fas fa-trash"></i> Delete</li>
+                                </ul>
+                            </div>
                         </div>
                     </footer>
                 </div>
@@ -41,15 +48,22 @@
         </div>
         <hr class="w3-border-top w3-border-gray w3-section">
         <h2>Files</h2>
-        <div class="w3-row-padding w3-section">
+        <div class="w3-row-padding">
             {% for item in items[1] %}
-            <div class="w3-col m4 l3 w3-margin-top">
+            <div class="w3-col m6 l4 w3-margin-top" id="file{{ loop.index }}">
                 <div class="card">
-                    <div class="w3-center w3-section" style="cursor: pointer;"><a class="w3-jumbo w3-text-blue" href="/dl/{{ item.abs_path }}"><i class="far fa-{{ get_file_icon(item.mimetype) }}"></i></a></div>
+                    <div class="w3-center w3-section" style="cursor: pointer;"><a class="w3-jumbo w3-text-blue" href="/dl{{ item.abs_path }}"><i class="far fa-{{ get_file_icon(item.mimetype) }}"></i></a></div>
                     <footer class="w3-container w3-section">
-                        <a href="/dl/{{ item.abs_path }}" class="w3-text-blue w3-hover-text-aqua">{{ item.name }}</a>
+                        <a href="/dl{{ item.abs_path }}" class="w3-text-blue w3-hover-text-aqua">{{ item.name[:17] }}{% if item.name[:17] != item.name %}...{% endif %}</a>
                         <div class="w3-right">
-                            <span class="w3-hover-text-dark-gray" style="cursor: pointer"><i class="fas fa-ellipsis-h"></i></span>
+                            <span class="w3-hover-text-dark-gray" onclick="document.querySelector('#file{{ loop.index }} .rc-menu').classList.toggle('active')" style="cursor: pointer"><i class="fas fa-ellipsis-h"></i></span>
+                            <div class="rc-menu w3-animate-opacity">
+                                <ul>
+                                    <li onclick="window.location = '/dl{{ item.abs_path }}'"><i class="fas fa-download"></i> Download</li>
+                                    <li><i class="fas fa-i-cursor"></i> Rename</li>
+                                    <li class="w3-text-red"><i class="fas fa-trash"></i> Delete</li>
+                                </ul>
+                            </div>
                         </div>
                     </footer>
                 </div>
