@@ -161,6 +161,60 @@ if app.config["INSTALLED"]:
         return make_response(jsonify("Invalid"), 400)
 
 
+    @app.route("/rename", methods=["POST"])
+    @login_required
+    def rename_item():
+        new_name = request.form.get("new")
+        id_ = int(request.form.get("id"))
+        type_ = request.form.get("type")
+        if not new_name or not id_ or not type_:
+            return make_response("Bad request", 400)
+        if type_ == "file":
+            f = File.query.get(id_)
+            if not f:
+                return make_response("File not found", 400)
+            dh.rename_file(f, new_name)
+            if is_safe_url(request.args.get("next")):
+                return redirect(request.args.get("next"))
+            return redirect(url_for("index"))
+        elif type_ == "folder":
+            f = Folder.query.get(id_)
+            if not f:
+                return make_response("File not found", 400)
+            dh.rename_folder(f, new_name)
+            if is_safe_url(request.args.get("next")):
+                return redirect(request.args.get("next"))
+            return redirect(url_for("index"))
+        else:
+            return make_response("Bad request", 400)
+
+
+    @app.route("/delete", methods=["POST"])
+    @login_required
+    def delete_item():
+        id_ = int(request.form.get("id"))
+        type_ = request.form.get("type")
+        if not id_ or not type_:
+            return make_response("Bad request", 400)
+        if type_ == "file":
+            f = File.query.get(id_)
+            if not f:
+                return make_response("File not found", 400)
+            dh.delete_file(f)
+            if is_safe_url(request.args.get("next")):
+                return redirect(request.args.get("next"))
+            return redirect(url_for("index"))
+        elif type_ == "folder":
+            f = Folder.query.get(id_)
+            if not f:
+                return make_response("Folder not found", 400)
+            dh.delete_folder(f)
+            if is_safe_url(request.args.get("next")):
+                return redirect(request.args.get("next"))
+            return redirect(url_for("index"))
+        else:
+            return make_response("Bad request", 400)
+
     @app.route("/dl/<path:filepath>")
     @login_required
     def download_file(filepath: str):

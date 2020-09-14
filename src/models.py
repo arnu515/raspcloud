@@ -74,6 +74,9 @@ class File(db.Model):
             }
         }
 
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
 
 class Folder(db.Model):
     __tablename__ = "folders"
@@ -107,3 +110,7 @@ class Folder(db.Model):
                 "avatar_url": "/avatar?email=" + self.user.get_email()
             }
         }
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()

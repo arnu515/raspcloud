@@ -34,8 +34,8 @@
                             <div class="rc-menu w3-animate-opacity">
                                 <ul>
                                     <li onclick="window.location = '/files{{ item.abs_path }}'"><i class="far fa-eye"></i> Open</li>
-                                    <li><i class="fas fa-i-cursor"></i> Rename</li>
-                                    <li class="w3-text-red"><i class="fas fa-trash"></i> Delete</li>
+                                    <li onclick="rename('folder', '{{ item.id }}', '{{ item.name }}')"><i class="fas fa-i-cursor"></i> Rename</li>
+                                    <li class="w3-text-red" onclick="del('folder', '{{ item.id }}', '{{ item.name }}')"><i class="fas fa-trash"></i> Delete</li>
                                 </ul>
                             </div>
                         </div>
@@ -60,14 +60,16 @@
                             <div class="rc-menu w3-animate-opacity">
                                 <ul>
                                     <li onclick="window.location = '/dl{{ item.abs_path }}'"><i class="fas fa-download"></i> Download</li>
-                                    <li><i class="fas fa-i-cursor"></i> Rename</li>
-                                    <li class="w3-text-red"><i class="fas fa-trash"></i> Delete</li>
+                                    <li onclick="rename('file', '{{ item.id }}', '{{ '/'.join(item.name.split('.')[:-1]) }}')"><i class="fas fa-i-cursor"></i> Rename</li>
+                                    <li class="w3-text-red" onclick="del('file', '{{ item.id }}', '{{ item.name }}')"><i class="fas fa-trash"></i> Delete</li>
                                 </ul>
                             </div>
                         </div>
                     </footer>
                 </div>
             </div>
+            {% else %}
+            <p>There are no files</p>
             {% endfor %}
         </div>
     </main>
@@ -75,5 +77,9 @@
 <!--    MODALS-->
     {{ modal.new_folder_modal() }}
     {{ modal.upload_file_modal() }}
+    {{ modal.rename_item_modal("folder") }}
+    {{ modal.rename_item_modal("file") }}
+    {{ modal.delete_item_modal("file") }}
+    {{ modal.delete_item_modal("folder") }}
 {% endblock body %}
 

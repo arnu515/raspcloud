@@ -7,7 +7,7 @@
             <form action="/new?next={{ request.path }}" method="post" class="w3-container">
                 <p>
                     <label for="folder">Folder name</label>
-                    <input type="text" placeholder="A-Z, a-z, 0-9, _, -, space and <= 256 chars only" id="folder" name="folder" class="w3-input w3-border">
+                    <input type="text" autocomplete="off" autofocus placeholder="a-z, 0-9, _, -, space and <= 256 chars only" id="folder" name="folder" class="w3-input w3-border">
                     <input type="hidden" name="type" value="new_folder">
                     <input type="hidden" name="path" id="32Wem2" value="">
                     <script>document.getElementById("32Wem2").value = window.location.pathname</script>
@@ -37,6 +37,48 @@
                 <div class="w3-light-gray w3-section w3-hide" id="progress">
                     <div class="w3-blue w3-text-white w3-container" id="progress-bar" style="width: 2%; transition: width 15ms ease;"></div>
                 </div>
+            </p>
+        </form>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro rename_item_modal(item_type) %}
+    <div class="w3-modal w3-animate-opacity" data-type="{{ item_type }}" id="renameModal">
+        <div class="w3-modal-content w3-animate-top">
+            <header class="w3-container">
+                <h3>Rename {{ item_type.title() }} <span class="w3-right" style="cursor: pointer" onclick="document.querySelector('#renameModal[data-type=\'{{ item_type }}\']').classList.toggle('w3-show')"><i class="fas fa-times"></i></span></h3>
+            </header>
+            <form action="/rename?next={{ request.path }}" method="POST" class="w3-container">
+                <p>
+                    <label for="new">New name</label>
+                    <input type="text" name="new" autofocus autocomplete="off" value="" id="new" class="w3-input w3-border">
+                    <input type="hidden" name="id" value="id" id="id">
+                </p>
+                <p>
+                    <button type="submit" class="w3-button w3-blue w3-hover-path" name="type"
+                            value="{{ item_type.lower() }}">Rename</button>
+                </p>
+            </form>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro delete_item_modal(item_type) %}
+<div class="w3-modal w3-animate-opacity" data-type="{{ item_type }}" id="deleteModal">
+    <div class="w3-modal-content w3-animate-top">
+        <header class="w3-container">
+            <h3>Delete {{ item_type.title() }} <span class="w3-right" style="cursor: pointer" onclick="document.querySelector('#renameModal[data-type=\'{{ item_type }}\']').classList.toggle('w3-show')"><i class="fas fa-times"></i></span></h3>
+        </header>
+        <form action="/delete?next={{ request.path }}" method="POST" class="w3-container">
+            <p>
+                Are you sure you want to delete file, <span id="file_name">loading...</span>?
+            </p>
+            <p>
+                <input type="hidden" name="id" id="id">
+                <button type="submit" id="type" class="w3-button w3-red w3-hover-pale-red" name="type"
+                        value="{{ item_type.lower() }}">Delete</button>
+                <button type="button" class="w3-button w3-light-gray" onclick="document.querySelector('#deleteModal[data-type=\'{{ item_type }}\']').classList.toggle('w3-show')">Cancel</button>
             </p>
         </form>
     </div>

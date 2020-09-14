@@ -8,6 +8,8 @@
 - [FRONTEND] Add (expected) file size to add file modal when file is selected
 - [FRONTEND] Add progress bar under file upload
 - [FRONTEND] Added functionality to the ellipsis besides files and folders
+- [FRONTEND] Added ability to delete files and folders
+- [FRONTEND] Added ability to rename files and folders
 ```
 #### Deletions
 None
@@ -15,9 +17,10 @@ None
 #### Changes
 ```text
 - [FRONTEND] Changed upload file from a "fetch" javascript function to an XHR
-- Encapsulate folder paths in URI under the "files/" path to prevent name shadowing, resulting in unaccessable folders or routes.
-- Replace spaces in file and folder names with '_'
+- Encapsulated folder paths in URI under the "files/" path to prevent name shadowing, resulting in unaccessable folders or routes.
+- Add function to replace spaces in file and folder names with '_'
 - [FRONTEND] Improved mobile responsiveness
+- Removed autocomplete from inputs
 ```
 
 #### Bug Fixes

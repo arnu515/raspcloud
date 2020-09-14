@@ -34,7 +34,7 @@
     <div class="w3-sidebar w3-bar-block w3-white w3-border-right w3-border-gray sidebar">
         <h3 class="w3-bar-item">{{ current_folder_name }}</h3>
         {% for folder in folders %}
-        <a href="{{ folder.abs_path }}" class="w3-bar-item w3-text-dark-gray w3-hover-text-gray">{{ folder.name }}/</a>
+        <a href="/files{{ folder.abs_path }}" class="w3-bar-item w3-text-dark-gray w3-hover-text-gray">{{ folder.name }}/</a>
         {% else %}
         <span class="w3-bar-item w3-text-dark-gray">No folders</span>
         {% endfor %}

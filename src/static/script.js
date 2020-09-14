@@ -32,7 +32,6 @@ function uploadFile() {
     fileInput.addEventListener("change", function () {
         for (var i = 0; i < fileInput.files.length; i++) {
             files.push(fileInput.files[i]);
-            console.log(files)
             var li = document.createElement("li");
             li.className = "w3-bar";
             var btn = document.createElement("button");
@@ -41,7 +40,6 @@ function uploadFile() {
             var file = fileInput.files[i]
             btn.addEventListener("click", function () {delFile(file)});
             btn.type = "button"
-            console.log(files[i])
             var span = document.createElement("span");
             span.className = "w3-bar-item";
             span.innerText = fileInput.files[i].name;
@@ -66,7 +64,6 @@ function delFile(f) {
     // No need of fetch, or formdata
     // NOTE: You may need to add content-type = multipart/form-data as attribute to form element
     files = files.filter(i => i !== f);
-    console.log(files, "F:", f)
     document.getElementById("fileList").innerHTML = "";
     for (var i = 0; i < files.length; i++) {
         var li = document.createElement("li");
@@ -128,7 +125,6 @@ function cancelFileUpload() {
 function updateFileUploadProgress(e) {
     if (e.lengthComputable) {
         var percent = Math.round(e.loaded * 100 / e.total);
-        console.log(percent);
         document.querySelector("#uploadFile #progress #progress-bar").style.width = percent + "%";
         document.querySelector("#uploadFile #progress #progress-bar").innerText = percent.toString() + "%";
     }
@@ -146,3 +142,17 @@ function fileUploadCancelled(e) {
     alert("File upload cancelled.");
 }
 
+function rename(type, id, old_name) {
+    var qs = "#renameModal[data-type='" + type + "']";
+    document.querySelector(qs).classList.toggle("w3-show");
+    document.querySelector(qs + " #new").value = old_name
+    document.querySelector(qs + " #new").focus();
+    document.querySelector(qs + " #id").value = id
+}
+
+function del(type, id, fn) {
+    var qs = "#deleteModal[data-type='" + type + "']";
+    document.querySelector(qs).classList.toggle("w3-show");
+    document.querySelector(qs + " #id").value = id
+    document.querySelector(qs + " #file_name").innerText = fn
+}

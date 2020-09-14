@@ -1,5 +1,9 @@
 import math
 import os
+import shutil
+
+from werkzeug.utils import secure_filename
+
 from . import config
 from ..models import *
 
@@ -88,3 +92,63 @@ def create_folder(folder_name: str, path: str, abs_path: str, user: User) -> Fol
     folder = Folder(name=folder_name, path=path, abs_path=abs_path, uid=user.id)
     folder.save()
     return folder
+
+
+def rename_file(f: File, new_name: str):
+    file_ext: str = "." + f.name.split('.')[-1]
+    new_path = f.path.split('/')
+    new_path[-1] = new_name + file_ext
+    new_path = '/'.join(new_path)
+    new_abs_path = f.abs_path.split('/')
+    new_abs_path[-1] = new_name + file_ext
+    new_abs_path = '/'.join(new_abs_path)
+    os.rename(f.path, new_path)
+    f.name = secure_filename(new_name + file_ext) or new_name + file_ext
+    f.abs_path = new_abs_path
+    f.path = new_path
+    f.save()
+
+
+def rename_folder(f: Folder, new_name: str):
+    new_path = f.path.split('/')
+    new_path[-1] = new_name
+    new_path = '/'.join(new_path)
+    new_abs_path = f.abs_path.split('/')
+    new_abs_path[-1] = new_name
+    new_abs_path = '/'.join(new_abs_path)
+    f.name = new_name
+    os.rename(f.path, new_path)
+    folders_in_f = Folder.query.filter(Folder.path.startswith(f.path)).all()[1::]
+    files_in_f = File.query.filter(File.path.startswith(f.path)).all()
+    for i in files_in_f:
+        i.path = i.path.replace(f.path, new_path, 1)
+        i.abs_path = i.abs_path.replace(f.abs_path, new_abs_path, 1)
+        i.save()
+    for i in folders_in_f:
+        print(i.path, new_path, f.path)
+        i.path = i.path.replace(f.path, new_path, 1)
+        i.abs_path = i.abs_path.replace(f.abs_path, new_abs_path, 1)
+        i.save()
+    f.path = new_path
+    f.abs_path = new_abs_path
+    f.save()
+
+
+def delete_file(f: File):
+    os.remove(f.path)
+    f.delete()
+
+
+def delete_folder(f: Folder):
+    for i in f.files:
+        delete_file(i)
+    folders_in_f = Folder.query.filter(Folder.path.startswith(f.path)).all()
+    files_in_f = File.query.filter(File.path.startswith(f.path)).all()
+    for i in files_in_f:
+        delete_file(i)
+    for i in folders_in_f:
+        try:
+            shutil.rmtree(i.path)
+        except: pass
+        i.delete()
+    f.delete()
