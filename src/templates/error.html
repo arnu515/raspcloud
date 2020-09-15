@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Error - {{ e.code }}</title>
+{% endblock %}
+
+{% block body %}
+    <div class="w3-section w3-container">
+        <h1 class="w3-jumbo w3-center"><sup class="w3-xlarge">ERROR </sup> {{ e.code }}</h1>
+        <hr class="w3-border-top w3-border-gray" style="width: 20%; margin: 0 auto;">
+        <p class="w3-large w3-center">{{ e.description }}</p>
+        <a href="/" class="w3-block w3-text-blue w3-hover-text-cyan w3-large w3-center"><i class="fas fa-chevron-left"></i> Back to home page</a>
+    </div>
+{% endblock %}

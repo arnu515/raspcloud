@@ -1,5 +1,12 @@
 # RaspCloud changelog
 
+\[v0.2.1 (BETA)]
+#### Additions
+```text
+- [FRONTEND] Add error page
+- [FRONTEND] Add coming soon to ACP and Settings
+```
+
 \[v0.2 (BETA)]
 
 #### Additions
@@ -11,8 +18,6 @@
 - [FRONTEND] Added ability to delete files and folders
 - [FRONTEND] Added ability to rename files and folders
 ```
-#### Deletions
-None
 
 #### Changes
 ```text

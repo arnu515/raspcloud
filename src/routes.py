@@ -4,6 +4,7 @@ from urllib.parse import urlparse, urljoin
 
 from flask import current_app as app, render_template, request, redirect, url_for, flash, jsonify, make_response, \
     send_from_directory
+from werkzeug.exceptions import NotFound
 from werkzeug.utils import secure_filename as sf
 from flask_login import current_user, login_user, login_required, logout_user
 from . import lm
@@ -26,6 +27,13 @@ def is_safe_url(target):
     ref_url = urlparse(request.host_url)
     test_url = urlparse(urljoin(request.host_url, target))
     return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
+
+
+@app.errorhandler(404)
+@app.errorhandler(400)
+def not_found_error(e: NotFound):
+    print(e)
+    return render_template("error.html", e=e), 404
 
 
 @app.route('/static/<path:filename>')
@@ -245,6 +253,15 @@ if app.config["INSTALLED"]:
 
         return dict(get_file_icon=get_file_icon)
 
+
+    @app.route("/acp")
+    def admin_control_panel():
+        return render_template("admin.html")
+
+
+    @app.route("/settings")
+    def user_settings():
+        return render_template("settings.html")
 else:
 
     @app.route('/')

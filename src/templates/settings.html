@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% import "components/navbar.jinja" as navbar %}
+
+{% block head %}
+    <title>User Settings - Raspcloud</title>
+{% endblock %}
+
+{% block body %}
+    {{ navbar.navbar(current_user, True) }}
+    <h1 class="w3-xxlarge w3-center">Coming soon</h1>
+{% endblock %}

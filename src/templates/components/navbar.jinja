@@ -1,7 +1,8 @@
-{% macro navbar(user) %}
+{% macro navbar(user, hide_buttons=False) %}
     <div class="w3-bar w3-blue w3-container">
         <a href="/" class="w3-bar-item w3-button w3-hover-none w3-hover-text-white w3-large">RaspCloud</a>
         <div class="w3-right" style="display: flex; align-items: center">
+            {% if not hide_buttons %}
             <div class="w3-dropdown-click">
                 <div class="w3-dropdown-click">
                     <button class="w3-button w3-blue w3-hover-none w3-hover-blue" id="uploadToggle" onclick="dropdown('uploadDrop', 'uploadToggle', true)"><i class="fas fa-plus" style="transition: all 500ms ease;"></i> <span class="w3-hide-small">Add</span></button>
@@ -13,6 +14,7 @@
             </div>
             {% if user.role == "main" or user.role == "admin" %}
             <a href="/acp" class="w3-bar-item w3-button w3-hover-none w3-hover-text-white"><i class="fas fa-cogs"></i> <span class="w3-hide-small">ACP</span></a>
+            {% endif %}
             {% endif %}
             <div class="w3-dropdown-click">
                 <div class="w3-dropdown-click">

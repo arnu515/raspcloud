@@ -1,2 +1,0 @@
-- There is no Admin Control Panel or ACP (frontend)
-- Sometimes, deleting files added in the upload model does nothing (frontend) [PLEASE HELP]
